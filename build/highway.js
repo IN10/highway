@@ -6104,9 +6104,9 @@ function (_Emitter) {
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
-                    goToSleep = true;
-                    console.log(this.From.properties);
-                    this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
+                    goToSleep = true; // console.log(this.From.properties);
+
+                    this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
                   }
                 } // We lock the navigation to avoid multiples clicks that could overload the
                 // navigation process meaning that if the a navigation is running the user
