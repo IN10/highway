@@ -266,7 +266,7 @@ export default class Core extends Emitter {
     console.log('currentLocation ', window.location.href);
 
     console.log('beforeFetch', this.From.properties.href, this.asleep.href);
-    if (this.From.properties.href === this.asleep.href) {
+    if (window.location.href === this.asleep.href) {
       fetchPage = false;
     }
     console.log('fetchPage', fetchPage);
@@ -277,6 +277,11 @@ export default class Core extends Emitter {
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
+
+        console.log('goTOSleep option A', this.lastURL);
+        console.log('goTOSleep option B', window.location.href);
+        console.log('goTOSleep option C', this.From.properties.href);
+
         // console.log(this.From.properties);
         this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
       }
