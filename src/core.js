@@ -240,7 +240,7 @@ export default class Core extends Emitter {
    * Do some tests before HTTP requests to optimize pipeline.
    */
   async beforeFetch() {
-    const urlBeforeHistoryPush = window.location.href;
+    // const urlBeforeHistoryPush = window.location.href;
     // console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
     // console.log('this.lastURL', this.lastURL);
 
@@ -256,8 +256,8 @@ export default class Core extends Emitter {
     let goToSleep = false;
     let fetchPage = true;
 
-    console.log('beforeFetch', urlBeforeHistoryPush, this.asleep.href);
-    if (urlBeforeHistoryPush === this.asleep.href) {
+    console.log('beforeFetch', this.From.properties.href, this.asleep.href);
+    if (this.From.properties.href === this.asleep.href) {
       fetchPage = false;
     }
     console.log('fetchPage', fetchPage);

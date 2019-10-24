@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50fdb22d-dc16-451e-9f33-0c07222efa17" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/build/highway.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/highway.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/highway.min.js.gz" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/core.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="270" column="40" selection-start-line="270" selection-start-column="40" selection-end-line="270" selection-end-column="40" />
+            <state relative-caret-position="72">
+              <caret line="242" column="7" selection-start-line="242" selection-start-column="7" selection-end-line="242" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -192,10 +195,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40121000" />
+    <option name="totallyTimeSpent" value="40331000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1991" y="118" width="1273" height="743" extended-state="0" />
+    <frame x="1859" y="-54" width="1273" height="743" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15109667" />
@@ -213,7 +216,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50040615" side_tool="true" weight="0.17050691" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49959382" visible="true" weight="0.17050691" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49959382" visible="true" weight="0.3579109" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -265,8 +268,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="270" column="40" selection-start-line="270" selection-start-column="40" selection-end-line="270" selection-end-column="40" />
+        <state relative-caret-position="72">
+          <caret line="242" column="7" selection-start-line="242" selection-start-column="7" selection-end-line="242" selection-end-column="7" />
         </state>
       </provider>
     </entry>
