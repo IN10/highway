@@ -77,7 +77,7 @@ export default class Core extends Emitter {
    * @arg {object} renderer — the renderer of the page
    */
   sleep(href, page, view, renderer) {
-    console.log('Put to sleep');
+    console.log('Put to sleep', href);
     this.asleep = {
       href,
       page,
@@ -235,6 +235,7 @@ export default class Core extends Emitter {
    */
   async beforeFetch() {
     const urlBeforeHistoryPush = window.location.href;
+    console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
 
     this.emit('BEFORE_HISTORY', {
       from: {
