@@ -5956,8 +5956,6 @@ function (_Emitter) {
           this.Contextual.name = contextual;
         }
 
-        console.log('currentLocation ', window.location.href);
-
         if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
           // We redirect when origins are differents or when there is an anchor.
           window.location.href = href;
@@ -5982,8 +5980,7 @@ function (_Emitter) {
 
       this.Contextual = false; // We temporary store the future location.
 
-      var location = this.Helpers.getLocation(window.location.href);
-      console.log('currentLocation ', window.location.href); // When users navigate using the browser buttons we check if the locations
+      var location = this.Helpers.getLocation(window.location.href); // When users navigate using the browser buttons we check if the locations
       // have no anchors and that our locations are different.
 
       if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
@@ -6093,7 +6090,10 @@ function (_Emitter) {
                   location: this.location
                 });
                 goToSleep = false;
-                fetchPage = true;
+                fetchPage = true; // Push State
+
+                this.pushState();
+                console.log('currentLocation ', window.location.href);
                 console.log('beforeFetch', this.From.properties.href, this.asleep.href);
 
                 if (this.From.properties.href === this.asleep.href) {
@@ -6108,12 +6108,10 @@ function (_Emitter) {
                     console.log(this.From.properties);
                     this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
                   }
-                } // Push State
-
-
-                this.pushState(); // We lock the navigation to avoid multiples clicks that could overload the
+                } // We lock the navigation to avoid multiples clicks that could overload the
                 // navigation process meaning that if the a navigation is running the user
                 // cannot trigger a new one while the previous one is running.
+
 
                 this.running = true; // We emit an event right before hiding the current view to create a hook
                 // for developers that want to do stuffs when an elligible link is clicked.
@@ -6133,62 +6131,62 @@ function (_Emitter) {
                 };
 
                 if (!fetchPage) {
-                  _context2.next = 39;
+                  _context2.next = 40;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 23;
+                  _context2.next = 24;
                   break;
                 }
 
                 if (!goToSleep) {
-                  _context2.next = 18;
+                  _context2.next = 19;
                   break;
                 }
 
-                _context2.next = 16;
+                _context2.next = 17;
                 return this.From.sleep(datas);
 
-              case 16:
-                _context2.next = 20;
+              case 17:
+                _context2.next = 21;
                 break;
 
-              case 18:
-                _context2.next = 20;
+              case 19:
+                _context2.next = 21;
                 return this.From.hide(datas);
 
-              case 20:
+              case 21:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 36;
+                _context2.next = 37;
                 break;
 
-              case 23:
+              case 24:
                 // We wait till all our Promises are resolved.
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 30;
+                  _context2.next = 31;
                   break;
                 }
 
-                _context2.next = 27;
+                _context2.next = 28;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 27:
+              case 28:
                 results = _context2.sent;
-                _context2.next = 33;
+                _context2.next = 34;
                 break;
 
-              case 30:
-                _context2.next = 32;
+              case 31:
+                _context2.next = 33;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 32:
+              case 33:
                 results = _context2.sent;
 
-              case 33:
+              case 34:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
@@ -6197,24 +6195,24 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 36:
+              case 37:
                 this.afterFetch(goToSleep);
-                _context2.next = 43;
+                _context2.next = 44;
                 break;
 
-              case 39:
-                _context2.next = 41;
+              case 40:
+                _context2.next = 42;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 41:
+              case 42:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 43:
+              case 44:
                 this.lastURL = this.location.href;
                 console.log('Setting last url ', this.lastURL);
 
-              case 45:
+              case 46:
               case "end":
                 return _context2.stop();
             }

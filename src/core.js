@@ -158,7 +158,7 @@ export default class Core extends Emitter {
         this.Contextual.name = contextual;
       }
 
-      console.log('currentLocation ', window.location.href);
+
 
       if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
         // We redirect when origins are differents or when there is an anchor.
@@ -188,7 +188,7 @@ export default class Core extends Emitter {
 
     // We temporary store the future location.
     const location = this.Helpers.getLocation(window.location.href);
-    console.log('currentLocation ', window.location.href);
+
     // When users navigate using the browser buttons we check if the locations
     // have no anchors and that our locations are different.
     if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
@@ -257,6 +257,14 @@ export default class Core extends Emitter {
     let goToSleep = false;
     let fetchPage = true;
 
+
+
+
+    // Push State
+    this.pushState();
+
+    console.log('currentLocation ', window.location.href);
+
     console.log('beforeFetch', this.From.properties.href, this.asleep.href);
     if (this.From.properties.href === this.asleep.href) {
       fetchPage = false;
@@ -265,7 +273,7 @@ export default class Core extends Emitter {
 
     if (this.From.onSleep) {
       if (
-        this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
+          this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
@@ -273,10 +281,6 @@ export default class Core extends Emitter {
         this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
       }
     }
-
-
-    // Push State
-    this.pushState();
 
     // We lock the navigation to avoid multiples clicks that could overload the
     // navigation process meaning that if the a navigation is running the user
