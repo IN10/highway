@@ -5954,6 +5954,7 @@ function (_Emitter) {
         }
 
         this.lastURL = this.location.href;
+        console.log('Redirect click ', this.lastURL);
 
         if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
           // We redirect when origins are differents or when there is an anchor.
@@ -5979,7 +5980,8 @@ function (_Emitter) {
       this.Contextual = false; // We temporary store the future location.
 
       var location = this.Helpers.getLocation(window.location.href);
-      this.lastURL = this.location.href; // When users navigate using the browser buttons we check if the locations
+      this.lastURL = this.location.href;
+      console.log('Popstate ', this.lastURL); // When users navigate using the browser buttons we check if the locations
       // have no anchors and that our locations are different.
 
       if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
