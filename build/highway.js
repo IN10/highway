@@ -5953,6 +5953,8 @@ function (_Emitter) {
           this.Contextual.name = contextual;
         }
 
+        this.lastURL = this.location.href;
+
         if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
           // We redirect when origins are differents or when there is an anchor.
           window.location.href = href;
@@ -5976,7 +5978,8 @@ function (_Emitter) {
 
       this.Contextual = false; // We temporary store the future location.
 
-      var location = this.Helpers.getLocation(window.location.href); // When users navigate using the browser buttons we check if the locations
+      var location = this.Helpers.getLocation(window.location.href);
+      this.lastURL = this.location.href; // When users navigate using the browser buttons we check if the locations
       // have no anchors and that our locations are different.
 
       if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
@@ -6029,8 +6032,7 @@ function (_Emitter) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              this.lastURL = this.location.href;
-              _context.next = 3;
+              _context.next = 2;
               return fetch(this.location.href, {
                 mode: 'same-origin',
                 method: 'GET',
@@ -6040,20 +6042,20 @@ function (_Emitter) {
                 credentials: 'same-origin'
               });
 
-            case 3:
+            case 2:
               response = _context.sent;
 
               if (!(response.status >= 200 && response.status < 300)) {
-                _context.next = 6;
+                _context.next = 5;
                 break;
               }
 
               return _context.abrupt("return", response.text());
 
-            case 6:
+            case 5:
               window.location.href = this.location.href;
 
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }

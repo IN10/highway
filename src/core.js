@@ -156,6 +156,7 @@ export default class Core extends Emitter {
         this.Contextual.name = contextual;
       }
 
+      this.lastURL = this.location.href;
       if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
         // We redirect when origins are differents or when there is an anchor.
         window.location.href = href;
@@ -183,6 +184,7 @@ export default class Core extends Emitter {
 
     // We temporary store the future location.
     const location = this.Helpers.getLocation(window.location.href);
+    this.lastURL = this.location.href;
 
     // When users navigate using the browser buttons we check if the locations
     // have no anchors and that our locations are different.
@@ -216,7 +218,6 @@ export default class Core extends Emitter {
    * @return {string} Fetch response
    */
   async fetch() {
-    this.lastURL = this.location.href;
     const response = await fetch(this.location.href, {
       mode: 'same-origin',
       method: 'GET',
