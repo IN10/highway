@@ -138,6 +138,7 @@ export default class Core extends Emitter {
    * @param {(object|string)} trigger - The trigger element or a string
    */
   redirect(href, contextual = false, trigger = 'script') {
+    console.log('Click -> get lastURL ', this.lastURL);
     // Save Trigger Element
     this.trigger = trigger;
 
@@ -157,8 +158,8 @@ export default class Core extends Emitter {
         this.Contextual.name = contextual;
       }
 
-      this.lastURL = this.location.href;
-      console.log('Redirect click ', this.lastURL);
+      console.log('currentLocation ', window.location.href);
+
       if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
         // We redirect when origins are differents or when there is an anchor.
         window.location.href = href;
@@ -178,6 +179,7 @@ export default class Core extends Emitter {
    * Watch history entry changes.
    */
   popState() {
+    console.log('Popstate -> get lastURL ', this.lastURL);
     // Save Trigger Element
     this.trigger = 'popstate';
 
@@ -186,8 +188,7 @@ export default class Core extends Emitter {
 
     // We temporary store the future location.
     const location = this.Helpers.getLocation(window.location.href);
-    this.lastURL = this.location.href;
-    console.log('Popstate ', this.lastURL);
+    console.log('currentLocation ', window.location.href);
     // When users navigate using the browser buttons we check if the locations
     // have no anchors and that our locations are different.
     if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
@@ -256,8 +257,8 @@ export default class Core extends Emitter {
     let goToSleep = false;
     let fetchPage = true;
 
-    console.log('beforeFetch', this.To.properties.href, this.asleep.href);
-    if (this.To.properties.href === this.asleep.href) {
+    console.log('beforeFetch', this.From.properties.href, this.asleep.href);
+    if (this.From.properties.href === this.asleep.href) {
       fetchPage = false;
     }
     console.log('fetchPage', fetchPage);
@@ -354,6 +355,9 @@ export default class Core extends Emitter {
       this.awaken();
 
     }
+
+    this.lastURL = this.location.href;
+    console.log('Setting last url ', this.lastURL);
   }
 
   /**
