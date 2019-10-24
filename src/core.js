@@ -268,7 +268,7 @@ export default class Core extends Emitter {
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
-        this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
+        this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
       }
     }
 

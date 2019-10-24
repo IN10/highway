@@ -6105,7 +6105,7 @@ function (_Emitter) {
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
                     goToSleep = true;
-                    this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
+                    this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
                   }
                 } // Push State
 
