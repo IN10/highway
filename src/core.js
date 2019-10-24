@@ -247,9 +247,11 @@ export default class Core extends Emitter {
     let goToSleep = false;
     let fetchPage = true;
 
+    console.log('beforeFetch', urlBeforeHistoryPush, this.asleep.href);
     if (urlBeforeHistoryPush === this.asleep.href) {
       fetchPage = false;
     }
+    console.log('fetchPage', fetchPage);
 
     if (this.From.onSleep) {
       if (

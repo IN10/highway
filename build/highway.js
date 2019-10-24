@@ -6083,10 +6083,13 @@ function (_Emitter) {
                 });
                 goToSleep = false;
                 fetchPage = true;
+                console.log('beforeFetch', urlBeforeHistoryPush, this.asleep.href);
 
                 if (urlBeforeHistoryPush === this.asleep.href) {
                   fetchPage = false;
                 }
+
+                console.log('fetchPage', fetchPage);
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
@@ -6118,62 +6121,62 @@ function (_Emitter) {
                 };
 
                 if (!fetchPage) {
-                  _context2.next = 37;
+                  _context2.next = 39;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 22;
+                  _context2.next = 24;
                   break;
                 }
 
                 if (!goToSleep) {
-                  _context2.next = 17;
+                  _context2.next = 19;
                   break;
                 }
 
-                _context2.next = 15;
+                _context2.next = 17;
                 return this.From.sleep(datas);
 
-              case 15:
-                _context2.next = 19;
-                break;
-
               case 17:
-                _context2.next = 19;
-                return this.From.hide(datas);
+                _context2.next = 21;
+                break;
 
               case 19:
+                _context2.next = 21;
+                return this.From.hide(datas);
+
+              case 21:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 34;
+                _context2.next = 36;
                 break;
 
-              case 22:
+              case 24:
                 // We wait till all our Promises are resolved.
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 29;
+                  _context2.next = 31;
                   break;
                 }
 
-                _context2.next = 26;
+                _context2.next = 28;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 26:
+              case 28:
                 results = _context2.sent;
-                _context2.next = 32;
+                _context2.next = 34;
                 break;
 
-              case 29:
-                _context2.next = 31;
+              case 31:
+                _context2.next = 33;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 31:
+              case 33:
                 results = _context2.sent;
 
-              case 32:
+              case 34:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]); // We cache our result
@@ -6181,20 +6184,20 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 34:
+              case 36:
                 this.afterFetch(goToSleep);
-                _context2.next = 41;
+                _context2.next = 43;
                 break;
 
-              case 37:
-                _context2.next = 39;
+              case 39:
+                _context2.next = 41;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 39:
+              case 41:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 41:
+              case 43:
               case "end":
                 return _context2.stop();
             }
