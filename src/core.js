@@ -256,8 +256,8 @@ export default class Core extends Emitter {
     let goToSleep = false;
     let fetchPage = true;
 
-    console.log('beforeFetch', this.From.properties.href, this.asleep.href);
-    if (this.From.properties.href === this.asleep.href) {
+    console.log('beforeFetch', this.To.properties.href, this.asleep.href);
+    if (this.To.properties.href === this.asleep.href) {
       fetchPage = false;
     }
     console.log('fetchPage', fetchPage);
