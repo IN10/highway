@@ -16,6 +16,8 @@ export default class Renderer {
     // We save properties of the renderer
     this.properties = properties;
 
+    console.log('this.properties', this.properties);
+
     // We get our transition we will use later to show/hide our view.
     this.Transition = properties.transition ? new properties.transition.class(this.wrap, properties.transition.name) : null;
   }
