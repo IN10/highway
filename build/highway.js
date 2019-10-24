@@ -6081,9 +6081,9 @@ function (_Emitter) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                urlBeforeHistoryPush = window.location.href;
-                console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
-                console.log('this.lastURL', this.lastURL);
+                urlBeforeHistoryPush = window.location.href; // console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
+                // console.log('this.lastURL', this.lastURL);
+
                 this.emit('BEFORE_HISTORY', {
                   from: {
                     page: this.From.properties.page,
@@ -6105,6 +6105,7 @@ function (_Emitter) {
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
                     goToSleep = true;
+                    console.log(this.From.properties);
                     this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
                   }
                 } // Push State
@@ -6132,62 +6133,62 @@ function (_Emitter) {
                 };
 
                 if (!fetchPage) {
-                  _context2.next = 42;
+                  _context2.next = 40;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 26;
+                  _context2.next = 24;
                   break;
                 }
 
                 if (!goToSleep) {
-                  _context2.next = 21;
+                  _context2.next = 19;
                   break;
                 }
 
-                _context2.next = 19;
+                _context2.next = 17;
                 return this.From.sleep(datas);
 
-              case 19:
-                _context2.next = 23;
+              case 17:
+                _context2.next = 21;
                 break;
 
-              case 21:
-                _context2.next = 23;
+              case 19:
+                _context2.next = 21;
                 return this.From.hide(datas);
 
-              case 23:
+              case 21:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 39;
+                _context2.next = 37;
                 break;
 
-              case 26:
+              case 24:
                 // We wait till all our Promises are resolved.
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 33;
+                  _context2.next = 31;
                   break;
                 }
 
-                _context2.next = 30;
+                _context2.next = 28;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 30:
+              case 28:
                 results = _context2.sent;
-                _context2.next = 36;
+                _context2.next = 34;
                 break;
 
-              case 33:
-                _context2.next = 35;
+              case 31:
+                _context2.next = 33;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 35:
+              case 33:
                 results = _context2.sent;
 
-              case 36:
+              case 34:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
@@ -6196,20 +6197,20 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 39:
+              case 37:
                 this.afterFetch(goToSleep);
-                _context2.next = 46;
+                _context2.next = 44;
                 break;
 
-              case 42:
-                _context2.next = 44;
+              case 40:
+                _context2.next = 42;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 44:
+              case 42:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 46:
+              case 44:
               case "end":
                 return _context2.stop();
             }

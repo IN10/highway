@@ -241,8 +241,8 @@ export default class Core extends Emitter {
    */
   async beforeFetch() {
     const urlBeforeHistoryPush = window.location.href;
-    console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
-    console.log('this.lastURL', this.lastURL);
+    // console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
+    // console.log('this.lastURL', this.lastURL);
 
     this.emit('BEFORE_HISTORY', {
       from: {
@@ -268,6 +268,7 @@ export default class Core extends Emitter {
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
+        console.log(this.From.properties);
         this.sleep(this.From.properties.href, this.From.properties.page, this.From.properties.view, this.From);
       }
     }
