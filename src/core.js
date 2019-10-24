@@ -29,6 +29,7 @@ export default class Core extends Emitter {
     // Properties & state.
     this.location = this.Helpers.getLocation(window.location.href);
     this.properties = this.Helpers.getProperties(document.cloneNode(true));
+    this.properties.href = window.location.href;
 
     // Status variables.
     this.popping = false;
@@ -333,6 +334,7 @@ export default class Core extends Emitter {
         // Now everything went fine we can extract the properties of the view we
         // successfully fetched and keep going.
         this.properties = this.Helpers.getProperties(results[0]);
+        this.properties.href = this.location.href;
 
         // We cache our result
         // eslint-disable-next-line
