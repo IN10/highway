@@ -54,6 +54,8 @@ export default class Core extends Emitter {
       renderer: null
     };
 
+    this.lastURL = window.location.href;
+
     // Events variables.
     this._navigate = this.navigate.bind(this);
 
@@ -214,6 +216,7 @@ export default class Core extends Emitter {
    * @return {string} Fetch response
    */
   async fetch() {
+    this.lastURL = this.location.href;
     const response = await fetch(this.location.href, {
       mode: 'same-origin',
       method: 'GET',
@@ -236,6 +239,7 @@ export default class Core extends Emitter {
   async beforeFetch() {
     const urlBeforeHistoryPush = window.location.href;
     console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
+    console.log('this.lastURL', this.lastURL);
 
     this.emit('BEFORE_HISTORY', {
       from: {
@@ -261,7 +265,7 @@ export default class Core extends Emitter {
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
-        this.sleep(urlBeforeHistoryPush, this.From.properties.page, this.From.properties.view, this.From);
+        this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
       }
     }
 

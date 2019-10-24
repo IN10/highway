@@ -5803,7 +5803,8 @@ function (_Emitter) {
       page: null,
       view: null,
       renderer: null
-    }; // Events variables.
+    };
+    _this.lastURL = window.location.href; // Events variables.
 
     _this._navigate = _this.navigate.bind(_assertThisInitialized(_this)); // Listen the `popstate` on the window to run the router each time an
     // history entry changes. Basically everytime the backward/forward arrows
@@ -6028,7 +6029,8 @@ function (_Emitter) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              this.lastURL = this.location.href;
+              _context.next = 3;
               return fetch(this.location.href, {
                 mode: 'same-origin',
                 method: 'GET',
@@ -6038,20 +6040,20 @@ function (_Emitter) {
                 credentials: 'same-origin'
               });
 
-            case 2:
+            case 3:
               response = _context.sent;
 
               if (!(response.status >= 200 && response.status < 300)) {
-                _context.next = 5;
+                _context.next = 6;
                 break;
               }
 
               return _context.abrupt("return", response.text());
 
-            case 5:
+            case 6:
               window.location.href = this.location.href;
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -6075,6 +6077,7 @@ function (_Emitter) {
               case 0:
                 urlBeforeHistoryPush = window.location.href;
                 console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
+                console.log('this.lastURL', this.lastURL);
                 this.emit('BEFORE_HISTORY', {
                   from: {
                     page: this.From.properties.page,
@@ -6096,7 +6099,7 @@ function (_Emitter) {
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
                     goToSleep = true;
-                    this.sleep(urlBeforeHistoryPush, this.From.properties.page, this.From.properties.view, this.From);
+                    this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
                   }
                 } // Push State
 
@@ -6123,62 +6126,62 @@ function (_Emitter) {
                 };
 
                 if (!fetchPage) {
-                  _context2.next = 40;
+                  _context2.next = 41;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 25;
+                  _context2.next = 26;
                   break;
                 }
 
                 if (!goToSleep) {
-                  _context2.next = 20;
+                  _context2.next = 21;
                   break;
                 }
 
-                _context2.next = 18;
+                _context2.next = 19;
                 return this.From.sleep(datas);
 
-              case 18:
-                _context2.next = 22;
+              case 19:
+                _context2.next = 23;
                 break;
 
-              case 20:
-                _context2.next = 22;
+              case 21:
+                _context2.next = 23;
                 return this.From.hide(datas);
 
-              case 22:
+              case 23:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 37;
+                _context2.next = 38;
                 break;
 
-              case 25:
+              case 26:
                 // We wait till all our Promises are resolved.
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 32;
+                  _context2.next = 33;
                   break;
                 }
 
-                _context2.next = 29;
+                _context2.next = 30;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 29:
+              case 30:
                 results = _context2.sent;
-                _context2.next = 35;
+                _context2.next = 36;
                 break;
 
-              case 32:
-                _context2.next = 34;
+              case 33:
+                _context2.next = 35;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 34:
+              case 35:
                 results = _context2.sent;
 
-              case 35:
+              case 36:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]); // We cache our result
@@ -6186,20 +6189,20 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 37:
+              case 38:
                 this.afterFetch(goToSleep);
-                _context2.next = 44;
+                _context2.next = 45;
                 break;
 
-              case 40:
-                _context2.next = 42;
+              case 41:
+                _context2.next = 43;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 42:
+              case 43:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 44:
+              case 45:
               case "end":
                 return _context2.stop();
             }
