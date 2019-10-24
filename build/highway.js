@@ -6094,7 +6094,7 @@ function (_Emitter) {
 
                 this.pushState();
                 console.log('currentLocation ', window.location.href);
-                console.log('beforeFetch', this.From.properties.href, this.asleep.href);
+                console.log('beforeFetch', window.location.href, this.asleep.href);
 
                 if (window.location.href === this.asleep.href) {
                   fetchPage = false;
