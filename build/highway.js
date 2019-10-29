@@ -6447,7 +6447,7 @@ function () {
           contextual = _ref.contextual;
       // Get View
       var to = this.wrap.lastElementChild;
-      var wrapChildren = this.wrap.childNodes;
+      var wrapChildren = this.wrap.children;
       console.log('wrapChildren', wrapChildren);
       var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
 
@@ -6495,7 +6495,7 @@ function () {
       var trigger = _ref2.trigger,
           contextual = _ref2.contextual;
       // Get view
-      var wrapChildren = this.wrap.childNodes;
+      var wrapChildren = this.wrap.children;
       console.log('wrapChildren', wrapChildren);
       var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
 

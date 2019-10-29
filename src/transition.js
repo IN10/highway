@@ -27,7 +27,7 @@ export default class Transition {
   show({ trigger, contextual }) {
     // Get View
     const to = this.wrap.lastElementChild;
-    const wrapChildren = this.wrap.childNodes;
+    const wrapChildren = this.wrap.children;
     console.log('wrapChildren', wrapChildren);
     const from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
 
@@ -64,7 +64,7 @@ export default class Transition {
    */
   hide({ trigger, contextual }) {
     // Get view
-    const wrapChildren = this.wrap.childNodes;
+    const wrapChildren = this.wrap.children;
     console.log('wrapChildren', wrapChildren);
     const from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
 
