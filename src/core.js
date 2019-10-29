@@ -278,9 +278,9 @@ export default class Core extends Emitter {
       ) {
         goToSleep = true;
 
-        console.log('goTOSleep option A', this.lastURL);
-        console.log('goTOSleep option B', window.location.href);
-        console.log('goTOSleep option C', this.From.properties.href);
+        // console.log('goTOSleep option A', this.lastURL);
+        // console.log('goTOSleep option B', window.location.href);
+        // console.log('goTOSleep option C', this.From.properties.href);
 
         // console.log(this.From.properties);
         this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);

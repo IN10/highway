@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50fdb22d-dc16-451e-9f33-0c07222efa17" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/transition.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/transition.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/core.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,8 +47,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/transition.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+            <state relative-caret-position="191">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
             </state>
           </provider>
         </entry>
@@ -100,9 +100,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/renderer.js" />
-        <option value="$PROJECT_DIR$/src/core.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/transition.js" />
+        <option value="$PROJECT_DIR$/src/core.js" />
       </list>
     </option>
   </component>
@@ -189,16 +189,15 @@
       <workItem from="1571730561867" duration="17920000" />
       <workItem from="1571815978157" duration="17041000" />
       <workItem from="1571988369763" duration="598000" />
-      <workItem from="1572363190140" duration="2771000" />
+      <workItem from="1572363190140" duration="2830000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45848000" />
+    <option name="totallyTimeSpent" value="45907000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1849" y="-63" width="1365" height="1021" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14588058" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -265,8 +264,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/transition.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+        <state relative-caret-position="191">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
         </state>
       </provider>
     </entry>

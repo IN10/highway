@@ -6104,10 +6104,10 @@ function (_Emitter) {
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
-                    goToSleep = true;
-                    console.log('goTOSleep option A', this.lastURL);
-                    console.log('goTOSleep option B', window.location.href);
-                    console.log('goTOSleep option C', this.From.properties.href); // console.log(this.From.properties);
+                    goToSleep = true; // console.log('goTOSleep option A', this.lastURL);
+                    // console.log('goTOSleep option B', window.location.href);
+                    // console.log('goTOSleep option C', this.From.properties.href);
+                    // console.log(this.From.properties);
 
                     this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
                   }
