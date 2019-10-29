@@ -6447,7 +6447,8 @@ function () {
           contextual = _ref.contextual;
       // Get View
       var to = this.wrap.lastElementChild;
-      var from = this.wrap.firstElementChild; // Promise
+      var wrapChildren = this.wrap.getChildren();
+      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
 
       return new Promise(function (resolve) {
         // The `in` method in encapsulated in the `show` method make transition
@@ -6493,7 +6494,8 @@ function () {
       var trigger = _ref2.trigger,
           contextual = _ref2.contextual;
       // Get view
-      var from = this.wrap.firstElementChild; // Promise
+      var wrapChildren = this.wrap.getChildren();
+      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
 
       return new Promise(function (resolve) {
         // The `out` method in encapsulated in the `hide` method make transition
