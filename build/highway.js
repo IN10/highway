@@ -6445,11 +6445,13 @@ function () {
 
       var trigger = _ref.trigger,
           contextual = _ref.contextual;
-      // Get View
+      console.log('transition.show'); // Get View
+
       var to = this.wrap.lastElementChild;
       var wrapChildren = this.wrap.children;
       console.log('wrapChildren', wrapChildren);
-      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
+      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
+      console.log('from', from); // Promise
 
       return new Promise(function (resolve) {
         // The `in` method in encapsulated in the `show` method make transition
@@ -6494,10 +6496,12 @@ function () {
 
       var trigger = _ref2.trigger,
           contextual = _ref2.contextual;
-      // Get view
+      console.log('transition.hide'); // Get view
+
       var wrapChildren = this.wrap.children;
       console.log('wrapChildren', wrapChildren);
-      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild; // Promise
+      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
+      console.log('from', from); // Promise
 
       return new Promise(function (resolve) {
         // The `out` method in encapsulated in the `hide` method make transition
