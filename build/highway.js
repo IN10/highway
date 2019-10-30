@@ -5187,6 +5187,8 @@ function () {
     key: "add",
     value: function add(goToSleep) {
       // We setup the DOM for our [data-router-view]
+      console.log('add', this.properties.view.outerHTML);
+
       if (goToSleep) {
         this.wrap.insertAdjacentHTML('afterbegin', this.properties.view.outerHTML);
       } else {
