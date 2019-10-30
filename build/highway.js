@@ -5161,8 +5161,7 @@ function () {
     // We get the view.
     this.wrap = document.querySelector('[data-router-wrapper]'); // We save properties of the renderer
 
-    this.properties = properties;
-    console.log('this.properties', this.properties); // We get our transition we will use later to show/hide our view.
+    this.properties = properties; // We get our transition we will use later to show/hide our view.
 
     this.Transition = properties.transition ? new properties.transition.class(this.wrap, properties.transition.name) : null;
   }
@@ -5187,8 +5186,6 @@ function () {
     key: "add",
     value: function add(goToSleep) {
       // We setup the DOM for our [data-router-view]
-      console.log('add', this.properties.view.outerHTML);
-
       if (goToSleep) {
         this.wrap.insertAdjacentHTML('afterbegin', this.properties.view.outerHTML);
       } else {
@@ -5834,7 +5831,6 @@ function (_Emitter) {
   core_createClass(Core, [{
     key: "sleep",
     value: function sleep(href, page, view, renderer) {
-      console.log('Put to sleep', href);
       this.asleep = {
         href: href,
         page: page,
@@ -5940,8 +5936,7 @@ function (_Emitter) {
     value: function redirect(href) {
       var contextual = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var trigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'script';
-      console.log('Click -> get lastURL ', this.lastURL); // Save Trigger Element
-
+      // Save Trigger Element
       this.trigger = trigger; // When our URL is different from the current location `href` and no other
       // navigation is running for the moment we are allowed to start a new one.
       // But if the URL containes anchors or if the origin is different we force
@@ -5976,8 +5971,7 @@ function (_Emitter) {
   }, {
     key: "popState",
     value: function popState() {
-      console.log('Popstate -> get lastURL ', this.lastURL); // Save Trigger Element
-
+      // Save Trigger Element
       this.trigger = 'popstate'; // A contextual transition only effects the transition when a certain link is clicked, not when navigating via browser buttons
 
       this.Contextual = false; // We temporary store the future location.
@@ -6075,14 +6069,11 @@ function (_Emitter) {
       var _beforeFetch = core_asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2() {
-        var goToSleep, fetchPage, datas, results;
+        var goToSleep, datas, results;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                // const urlBeforeHistoryPush = window.location.href;
-                // console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
-                // console.log('this.lastURL', this.lastURL);
                 this.emit('BEFORE_HISTORY', {
                   from: {
                     page: this.From.properties.page,
@@ -6091,26 +6082,13 @@ function (_Emitter) {
                   trigger: this.trigger,
                   location: this.location
                 });
-                goToSleep = false;
-                fetchPage = true; // Push State
+                goToSleep = false; // Push State
 
                 this.pushState();
-                console.log('currentLocation ', window.location.href);
-                console.log('beforeFetch', window.location.href, this.asleep.href);
-
-                if (window.location.href === this.asleep.href) {
-                  fetchPage = false;
-                }
-
-                console.log('fetchPage', fetchPage);
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
-                    goToSleep = true; // console.log('goTOSleep option A', this.lastURL);
-                    // console.log('goTOSleep option B', window.location.href);
-                    // console.log('goTOSleep option C', this.From.properties.href);
-                    // console.log(this.From.properties);
-
+                    goToSleep = true;
                     this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
                   }
                 } // We lock the navigation to avoid multiples clicks that could overload the
@@ -6135,63 +6113,63 @@ function (_Emitter) {
                   contextual: this.Contextual
                 };
 
-                if (!fetchPage) {
-                  _context2.next = 40;
+                if (!(window.location.href !== this.asleep.href)) {
+                  _context2.next = 35;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 24;
-                  break;
-                }
-
-                if (!goToSleep) {
                   _context2.next = 19;
                   break;
                 }
 
-                _context2.next = 17;
+                if (!goToSleep) {
+                  _context2.next = 14;
+                  break;
+                }
+
+                _context2.next = 12;
                 return this.From.sleep(datas);
 
-              case 17:
-                _context2.next = 21;
+              case 12:
+                _context2.next = 16;
+                break;
+
+              case 14:
+                _context2.next = 16;
+                return this.From.hide(datas);
+
+              case 16:
+                // Get Properties
+                this.properties = this.cache.get(this.location.href);
+                _context2.next = 32;
                 break;
 
               case 19:
-                _context2.next = 21;
-                return this.From.hide(datas);
-
-              case 21:
-                // Get Properties
-                this.properties = this.cache.get(this.location.href);
-                _context2.next = 37;
-                break;
-
-              case 24:
                 // We wait till all our Promises are resolved.
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 31;
+                  _context2.next = 26;
                   break;
                 }
 
-                _context2.next = 28;
+                _context2.next = 23;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
+
+              case 23:
+                results = _context2.sent;
+                _context2.next = 29;
+                break;
+
+              case 26:
+                _context2.next = 28;
+                return Promise.all([this.fetch(), this.From.hide(datas)]);
 
               case 28:
                 results = _context2.sent;
-                _context2.next = 34;
-                break;
 
-              case 31:
-                _context2.next = 33;
-                return Promise.all([this.fetch(), this.From.hide(datas)]);
-
-              case 33:
-                results = _context2.sent;
-
-              case 34:
+              case 29:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
@@ -6200,24 +6178,24 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 37:
+              case 32:
                 this.afterFetch(goToSleep);
-                _context2.next = 44;
+                _context2.next = 39;
                 break;
 
-              case 40:
-                _context2.next = 42;
+              case 35:
+                _context2.next = 37;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 42:
+              case 37:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 44:
+              case 39:
                 this.lastURL = this.location.href;
                 console.log('Setting last url ', this.lastURL);
 
-              case 46:
+              case 41:
               case "end":
                 return _context2.stop();
             }
@@ -6447,13 +6425,9 @@ function () {
 
       var trigger = _ref.trigger,
           contextual = _ref.contextual;
-      console.log('transition.show'); // Get View
-
+      // Get View
       var to = this.wrap.lastElementChild;
-      var wrapChildren = this.wrap.children;
-      console.log('wrapChildren', wrapChildren);
-      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
-      console.log('from', from); // Promise
+      var from = this.wrap.firstElementChild; // Promise
 
       return new Promise(function (resolve) {
         // The `in` method in encapsulated in the `show` method make transition
@@ -6498,12 +6472,8 @@ function () {
 
       var trigger = _ref2.trigger,
           contextual = _ref2.contextual;
-      console.log('transition.hide'); // Get view
-
-      var wrapChildren = this.wrap.children;
-      console.log('wrapChildren', wrapChildren);
-      var from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
-      console.log('from', from); // Promise
+      // Get view
+      var from = this.wrap.firstElementChild; // Promise
 
       return new Promise(function (resolve) {
         // The `out` method in encapsulated in the `hide` method make transition

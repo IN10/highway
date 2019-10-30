@@ -25,15 +25,9 @@ export default class Transition {
    * @param {object} datas - Set of datas
    */
   show({ trigger, contextual }) {
-    console.log('transition.show');
     // Get View
     const to = this.wrap.lastElementChild;
-    const wrapChildren = this.wrap.children;
-    console.log('wrapChildren', wrapChildren);
-    const from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
-
-    console.log('from', from);
-
+    const from = this.wrap.firstElementChild;
 
     // Promise
     return new Promise(resolve => {
@@ -67,13 +61,8 @@ export default class Transition {
    * @param {object} datas - Set of datas
    */
   hide({ trigger, contextual }) {
-    console.log('transition.hide');
     // Get view
-    const wrapChildren = this.wrap.children;
-    console.log('wrapChildren', wrapChildren);
-    const from = wrapChildren.length > 2 ? wrapChildren[1] : this.wrap.firstElementChild;
-
-    console.log('from', from);
+    const from = this.wrap.firstElementChild;
 
     // Promise
     return new Promise(resolve => {

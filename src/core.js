@@ -80,7 +80,6 @@ export default class Core extends Emitter {
    * @arg {object} renderer — the renderer of the page
    */
   sleep(href, page, view, renderer) {
-    console.log('Put to sleep', href);
     this.asleep = {
       href,
       page,
@@ -138,7 +137,6 @@ export default class Core extends Emitter {
    * @param {(object|string)} trigger - The trigger element or a string
    */
   redirect(href, contextual = false, trigger = 'script') {
-    console.log('Click -> get lastURL ', this.lastURL);
     // Save Trigger Element
     this.trigger = trigger;
 
@@ -179,7 +177,6 @@ export default class Core extends Emitter {
    * Watch history entry changes.
    */
   popState() {
-    console.log('Popstate -> get lastURL ', this.lastURL);
     // Save Trigger Element
     this.trigger = 'popstate';
 
@@ -241,10 +238,6 @@ export default class Core extends Emitter {
    * Do some tests before HTTP requests to optimize pipeline.
    */
   async beforeFetch() {
-    // const urlBeforeHistoryPush = window.location.href;
-    // console.log('urlBeforeHistoryPush', urlBeforeHistoryPush);
-    // console.log('this.lastURL', this.lastURL);
-
     this.emit('BEFORE_HISTORY', {
       from: {
         page: this.From.properties.page,
@@ -255,21 +248,10 @@ export default class Core extends Emitter {
     });
 
     let goToSleep = false;
-    let fetchPage = true;
-
-
-
 
     // Push State
     this.pushState();
 
-    console.log('currentLocation ', window.location.href);
-
-    console.log('beforeFetch', window.location.href, this.asleep.href);
-    if (window.location.href === this.asleep.href) {
-      fetchPage = false;
-    }
-    console.log('fetchPage', fetchPage);
 
     if (this.From.onSleep) {
       if (
@@ -277,12 +259,6 @@ export default class Core extends Emitter {
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
         goToSleep = true;
-
-        // console.log('goTOSleep option A', this.lastURL);
-        // console.log('goTOSleep option B', window.location.href);
-        // console.log('goTOSleep option C', this.From.properties.href);
-
-        // console.log(this.From.properties);
         this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
       }
     }
@@ -310,7 +286,7 @@ export default class Core extends Emitter {
     };
 
 
-    if (fetchPage) {
+    if (window.location.href !== this.asleep.href) {
       // We have to verify our cache in order to save some HTTPRequests. If we
       // don't use any caching system everytime we would come back to a page we
       // already saw we will have to fetch it again and it's pointless.
