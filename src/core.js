@@ -137,6 +137,7 @@ export default class Core extends Emitter {
    * @param {(object|string)} trigger - The trigger element or a string
    */
   redirect(href, contextual = false, trigger = 'script') {
+    console.log('highwayJS::redirect');
     // Save Trigger Element
     this.trigger = trigger;
 
