@@ -137,7 +137,6 @@ export default class Core extends Emitter {
    * @param {(object|string)} trigger - The trigger element or a string
    */
   redirect(href, contextual = false, trigger = 'script') {
-    console.log('highwayJS::redirect');
     // Save Trigger Element
     this.trigger = trigger;
 
@@ -156,8 +155,6 @@ export default class Core extends Emitter {
         this.Contextual = this.Transitions['contextual'][contextual].prototype;
         this.Contextual.name = contextual;
       }
-
-
 
       if (location.origin !== this.location.origin || location.anchor && location.pathname === this.location.pathname) {
         // We redirect when origins are differents or when there is an anchor.
@@ -343,7 +340,6 @@ export default class Core extends Emitter {
     }
 
     this.lastURL = this.location.href;
-    console.log('Setting last url ', this.lastURL);
   }
 
   /**

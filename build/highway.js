@@ -5936,8 +5936,7 @@ function (_Emitter) {
     value: function redirect(href) {
       var contextual = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var trigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'script';
-      console.log('highwayJS::redirect'); // Save Trigger Element
-
+      // Save Trigger Element
       this.trigger = trigger; // When our URL is different from the current location `href` and no other
       // navigation is running for the moment we are allowed to start a new one.
       // But if the URL containes anchors or if the origin is different we force
@@ -6194,9 +6193,8 @@ function (_Emitter) {
 
               case 39:
                 this.lastURL = this.location.href;
-                console.log('Setting last url ', this.lastURL);
 
-              case 41:
+              case 40:
               case "end":
                 return _context2.stop();
             }
