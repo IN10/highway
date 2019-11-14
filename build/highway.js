@@ -6180,7 +6180,7 @@ function (_Emitter) {
 
               case 32:
                 this.afterFetch(goToSleep);
-                _context2.next = 40;
+                _context2.next = 41;
                 break;
 
               case 35:
@@ -6190,12 +6190,13 @@ function (_Emitter) {
               case 37:
                 this.properties = this.asleep.renderer.properties;
                 console.log(this.asleep);
+                console.log(document.querySelector(this.asleep.view));
                 this.awaken();
 
-              case 40:
+              case 41:
                 this.lastURL = this.location.href;
 
-              case 41:
+              case 42:
               case "end":
                 return _context2.stop();
             }

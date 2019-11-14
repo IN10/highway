@@ -337,7 +337,7 @@ export default class Core extends Emitter {
       this.properties = this.asleep.renderer.properties;
 
       console.log(this.asleep);
-
+      console.log(document.querySelector(this.asleep.view));
       this.awaken();
 
     }
