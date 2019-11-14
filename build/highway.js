@@ -5678,6 +5678,20 @@ function () {
       };
     }
     /**
+     * Set ID on new content.
+     *
+     * @arg    {object} view – DOM context
+     * @arg    {string} url - the url of the page
+     */
+
+  }, {
+    key: "setID",
+    value: function setID(view, url) {
+      console.log('setID');
+      console.log('view', view);
+      console.log('ur', url);
+    }
+    /**
      * Get state of an URL.
      *
      * @arg    {string} url — URL to decompose
@@ -6114,7 +6128,7 @@ function (_Emitter) {
                 };
 
                 if (!(window.location.href !== this.asleep.href)) {
-                  _context2.next = 35;
+                  _context2.next = 36;
                   break;
                 }
 
@@ -6142,7 +6156,7 @@ function (_Emitter) {
               case 16:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 32;
+                _context2.next = 33;
                 break;
 
               case 19:
@@ -6173,30 +6187,31 @@ function (_Emitter) {
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
-                this.properties.href = this.location.href; // We cache our result
+                this.properties.href = this.location.href;
+                this.Helpers.setID(this.properties.view, window.location.href); // We cache our result
                 // eslint-disable-next-line
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 32:
+              case 33:
                 this.afterFetch(goToSleep);
-                _context2.next = 41;
+                _context2.next = 42;
                 break;
 
-              case 35:
-                _context2.next = 37;
+              case 36:
+                _context2.next = 38;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 37:
+              case 38:
                 this.properties = this.asleep.renderer.properties;
                 console.log(this.asleep);
                 console.log(document.querySelector(this.asleep.view));
                 this.awaken();
 
-              case 41:
+              case 42:
                 this.lastURL = this.location.href;
 
-              case 42:
+              case 43:
               case "end":
                 return _context2.stop();
             }

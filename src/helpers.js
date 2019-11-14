@@ -199,6 +199,18 @@ export default class Helpers {
   }
 
   /**
+   * Set ID on new content.
+   *
+   * @arg    {object} view – DOM context
+   * @arg    {string} url - the url of the page
+   */
+  setID(view, url) {
+    console.log('setID');
+    console.log('view', view);
+    console.log('ur', url);
+  }
+
+  /**
    * Get state of an URL.
    *
    * @arg    {string} url — URL to decompose

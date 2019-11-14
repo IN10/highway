@@ -320,6 +320,7 @@ export default class Core extends Emitter {
         // successfully fetched and keep going.
         this.properties = this.Helpers.getProperties(results[0]);
         this.properties.href = this.location.href;
+        this.Helpers.setID(this.properties.view, window.location.href);
 
         // We cache our result
         // eslint-disable-next-line
