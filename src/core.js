@@ -335,6 +335,9 @@ export default class Core extends Emitter {
         this.From.hide(datas)
       ]);
       this.properties = this.asleep.renderer.properties;
+
+      console.log(this.asleep);
+
       this.awaken();
 
     }
