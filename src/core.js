@@ -73,6 +73,14 @@ export default class Core extends Emitter {
   }
 
   /**
+   * clearSleep .
+   * @arg {string} href — href of sleeping page
+   */
+  clearSleep() {
+    this.asleep = {};
+  }
+
+  /**
    * Sleep .
    * @arg {string} href — href of sleeping page
    * @arg {object} page — the actual page
@@ -320,7 +328,6 @@ export default class Core extends Emitter {
         // successfully fetched and keep going.
         this.properties = this.Helpers.getProperties(results[0]);
         this.properties.href = this.location.href;
-        this.Helpers.setID(this.properties.view, window.location.href);
 
         // We cache our result
         // eslint-disable-next-line
@@ -336,9 +343,6 @@ export default class Core extends Emitter {
         this.From.hide(datas)
       ]);
       this.properties = this.asleep.renderer.properties;
-
-      console.log(this.asleep);
-      console.log(document.querySelector(this.asleep.view));
       this.awaken();
 
     }
