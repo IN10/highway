@@ -194,6 +194,8 @@ export default class Core extends Emitter {
     // We temporary store the future location.
     const location = this.Helpers.getLocation(window.location.href);
 
+    console.log('popState', this.location, location);
+
     // When users navigate using the browser buttons we check if the locations
     // have no anchors and that our locations are different.
     if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {

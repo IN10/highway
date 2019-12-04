@@ -5987,7 +5987,8 @@ function (_Emitter) {
 
       this.Contextual = false; // We temporary store the future location.
 
-      var location = this.Helpers.getLocation(window.location.href); // When users navigate using the browser buttons we check if the locations
+      var location = this.Helpers.getLocation(window.location.href);
+      console.log('popState', this.location, location); // When users navigate using the browser buttons we check if the locations
       // have no anchors and that our locations are different.
 
       if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
