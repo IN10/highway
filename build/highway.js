@@ -5993,7 +5993,8 @@ function (_Emitter) {
 
       if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
         this.popping = true;
-        this.location = location; // If everything is fine we can save our location and do what we need to
+        this.location = location;
+        console.log('popstate legit, go fetch page'); // If everything is fine we can save our location and do what we need to
         // do before fetching it.
 
         this.beforeFetch();
@@ -6097,9 +6098,11 @@ function (_Emitter) {
                 goToSleep = false; // Push State
 
                 this.pushState();
+                console.log('check if from onSleep');
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
+                    console.log('gotoSleep');
                     goToSleep = true;
                     this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
                   }
@@ -6124,64 +6127,73 @@ function (_Emitter) {
                   trigger: this.trigger,
                   contextual: this.Contextual
                 };
+                console.log(window.location.href, ' !== ', this.asleep.href);
 
                 if (!(window.location.href !== this.asleep.href)) {
-                  _context2.next = 35;
+                  _context2.next = 43;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 19;
+                  _context2.next = 24;
                   break;
                 }
+
+                // We wait until the view is hidden.
+                console.log('get from cache');
 
                 if (!goToSleep) {
-                  _context2.next = 14;
+                  _context2.next = 18;
                   break;
                 }
 
-                _context2.next = 12;
+                console.log('from go to sleep');
+                _context2.next = 16;
                 return this.From.sleep(datas);
 
-              case 12:
-                _context2.next = 16;
+              case 16:
+                _context2.next = 21;
                 break;
 
-              case 14:
-                _context2.next = 16;
+              case 18:
+                console.log('from go hide');
+                _context2.next = 21;
                 return this.From.hide(datas);
 
-              case 16:
+              case 21:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 32;
+                _context2.next = 40;
                 break;
 
-              case 19:
+              case 24:
                 // We wait till all our Promises are resolved.
+                console.log('else');
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 26;
+                  _context2.next = 33;
                   break;
                 }
 
-                _context2.next = 23;
+                console.log('fetch then from go to sleep');
+                _context2.next = 30;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 23:
+              case 30:
                 results = _context2.sent;
-                _context2.next = 29;
+                _context2.next = 37;
                 break;
 
-              case 26:
-                _context2.next = 28;
+              case 33:
+                console.log('fetch then from go hide');
+                _context2.next = 36;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 28:
+              case 36:
                 results = _context2.sent;
 
-              case 29:
+              case 37:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
@@ -6190,23 +6202,24 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 32:
+              case 40:
                 this.afterFetch(goToSleep);
-                _context2.next = 39;
+                _context2.next = 48;
                 break;
 
-              case 35:
-                _context2.next = 37;
+              case 43:
+                console.log('awaken');
+                _context2.next = 46;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 37:
+              case 46:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 39:
+              case 48:
                 this.lastURL = this.location.href;
 
-              case 40:
+              case 49:
               case "end":
                 return _context2.stop();
             }

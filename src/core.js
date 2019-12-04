@@ -202,6 +202,7 @@ export default class Core extends Emitter {
       this.popping = true;
       this.location = location;
 
+      console.log('popstate legit, go fetch page');
       // If everything is fine we can save our location and do what we need to
       // do before fetching it.
       this.beforeFetch();
@@ -262,12 +263,13 @@ export default class Core extends Emitter {
     // Push State
     this.pushState();
 
-
+    console.log('check if from onSleep');
     if (this.From.onSleep) {
       if (
           this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
+        console.log('gotoSleep');
         goToSleep = true;
         this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
       }
@@ -295,17 +297,20 @@ export default class Core extends Emitter {
       contextual: this.Contextual
     };
 
-
+    console.log(window.location.href, ' !== ', this.asleep.href);
     if (window.location.href !== this.asleep.href) {
       // We have to verify our cache in order to save some HTTPRequests. If we
       // don't use any caching system everytime we would come back to a page we
       // already saw we will have to fetch it again and it's pointless.
       if (this.cache.has(this.location.href)) {
         // We wait until the view is hidden.
+        console.log('get from cache');
 
         if (goToSleep) {
+          console.log('from go to sleep');
           await this.From.sleep(datas);
         } else {
+          console.log('from go hide');
           await this.From.hide(datas);
         }
 
@@ -314,14 +319,17 @@ export default class Core extends Emitter {
 
       } else {
         // We wait till all our Promises are resolved.
+        console.log('else');
         let results = null;
 
         if (goToSleep) {
+          console.log('fetch then from go to sleep');
           results = await Promise.all([
             this.fetch(),
             this.From.sleep(datas)
           ]);
         } else {
+          console.log('fetch then from go hide');
           results = await Promise.all([
             this.fetch(),
             this.From.hide(datas)
@@ -343,6 +351,7 @@ export default class Core extends Emitter {
 
     } else {
 
+      console.log('awaken');
       await Promise.all([
         this.From.hide(datas)
       ]);
