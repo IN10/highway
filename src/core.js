@@ -263,7 +263,9 @@ export default class Core extends Emitter {
     // Push State
     this.pushState();
 
-    console.log('check if from onSleep');
+    console.log(this.From);
+    console.log('check if from onSleep function');
+
     if (this.From.onSleep) {
       if (
           this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
@@ -316,6 +318,7 @@ export default class Core extends Emitter {
 
         // Get Properties
         this.properties = this.cache.get(this.location.href);
+        console.log('got page from cache', this.properties);
 
       } else {
         // We wait till all our Promises are resolved.
@@ -434,12 +437,15 @@ export default class Core extends Emitter {
    *  @param {bool} goToSleep - is a page falling asleep
    */
   async afterFetch(goToSleep) {
+    console.log('after fetch');
     // We are calling the renderer attached to the view we just fetched and we
     // are adding the [data-router-view] in our DOM.
     const Renderer = await this.properties.renderer;
 
     this.To = new Renderer(this.properties);
     this.To.add(goToSleep);
+
+    console.log(this.To);
 
     // We then emit a now event right before the view is shown to create a hook
     // for developers who want to make stuff before the view is visible.

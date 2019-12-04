@@ -5186,6 +5186,9 @@ function () {
     key: "add",
     value: function add(goToSleep) {
       // We setup the DOM for our [data-router-view]
+      console.log('addHTML', goToSleep);
+      console.log(this.properties.view.outerHTML);
+
       if (goToSleep) {
         this.wrap.insertAdjacentHTML('afterbegin', this.properties.view.outerHTML);
       } else {
@@ -6098,7 +6101,8 @@ function (_Emitter) {
                 goToSleep = false; // Push State
 
                 this.pushState();
-                console.log('check if from onSleep');
+                console.log(this.From);
+                console.log('check if from onSleep function');
 
                 if (this.From.onSleep) {
                   if (this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' || this.trigger !== 'script' && window.lastTransition === 'pageToOverlay') {
@@ -6130,12 +6134,12 @@ function (_Emitter) {
                 console.log(window.location.href, ' !== ', this.asleep.href);
 
                 if (!(window.location.href !== this.asleep.href)) {
-                  _context2.next = 43;
+                  _context2.next = 45;
                   break;
                 }
 
                 if (!this.cache.has(this.location.href)) {
-                  _context2.next = 24;
+                  _context2.next = 26;
                   break;
                 }
 
@@ -6143,57 +6147,58 @@ function (_Emitter) {
                 console.log('get from cache');
 
                 if (!goToSleep) {
-                  _context2.next = 18;
+                  _context2.next = 19;
                   break;
                 }
 
                 console.log('from go to sleep');
-                _context2.next = 16;
+                _context2.next = 17;
                 return this.From.sleep(datas);
 
-              case 16:
-                _context2.next = 21;
+              case 17:
+                _context2.next = 22;
                 break;
 
-              case 18:
+              case 19:
                 console.log('from go hide');
-                _context2.next = 21;
+                _context2.next = 22;
                 return this.From.hide(datas);
 
-              case 21:
+              case 22:
                 // Get Properties
                 this.properties = this.cache.get(this.location.href);
-                _context2.next = 40;
+                console.log('got page from cache', this.properties);
+                _context2.next = 42;
                 break;
 
-              case 24:
+              case 26:
                 // We wait till all our Promises are resolved.
                 console.log('else');
                 results = null;
 
                 if (!goToSleep) {
-                  _context2.next = 33;
+                  _context2.next = 35;
                   break;
                 }
 
                 console.log('fetch then from go to sleep');
-                _context2.next = 30;
+                _context2.next = 32;
                 return Promise.all([this.fetch(), this.From.sleep(datas)]);
 
-              case 30:
+              case 32:
                 results = _context2.sent;
-                _context2.next = 37;
+                _context2.next = 39;
                 break;
 
-              case 33:
+              case 35:
                 console.log('fetch then from go hide');
-                _context2.next = 36;
+                _context2.next = 38;
                 return Promise.all([this.fetch(), this.From.hide(datas)]);
 
-              case 36:
+              case 38:
                 results = _context2.sent;
 
-              case 37:
+              case 39:
                 // Now everything went fine we can extract the properties of the view we
                 // successfully fetched and keep going.
                 this.properties = this.Helpers.getProperties(results[0]);
@@ -6202,24 +6207,24 @@ function (_Emitter) {
 
                 this.cache.set(this.location.href, this.properties);
 
-              case 40:
+              case 42:
                 this.afterFetch(goToSleep);
-                _context2.next = 48;
+                _context2.next = 50;
                 break;
 
-              case 43:
+              case 45:
                 console.log('awaken');
-                _context2.next = 46;
+                _context2.next = 48;
                 return Promise.all([this.From.hide(datas)]);
 
-              case 46:
+              case 48:
                 this.properties = this.asleep.renderer.properties;
                 this.awaken();
 
-              case 48:
+              case 50:
                 this.lastURL = this.location.href;
 
-              case 49:
+              case 51:
               case "end":
                 return _context2.stop();
             }
@@ -6328,13 +6333,17 @@ function (_Emitter) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                console.log('after fetch'); // We are calling the renderer attached to the view we just fetched and we
+                // are adding the [data-router-view] in our DOM.
+
+                _context4.next = 3;
                 return this.properties.renderer;
 
-              case 2:
+              case 3:
                 Renderer = _context4.sent;
                 this.To = new Renderer(this.properties);
-                this.To.add(goToSleep); // We then emit a now event right before the view is shown to create a hook
+                this.To.add(goToSleep);
+                console.log(this.To); // We then emit a now event right before the view is shown to create a hook
                 // for developers who want to make stuff before the view is visible.
 
                 this.emit('NAVIGATE_IN', {
@@ -6347,13 +6356,13 @@ function (_Emitter) {
                 }); // We wait for the view transition to be over before resetting some variables
                 // and reattaching the events to all the new elligible links in our DOM.
 
-                _context4.next = 8;
+                _context4.next = 10;
                 return this.To.show({
                   trigger: this.trigger,
                   contextual: this.Contextual
                 });
 
-              case 8:
+              case 10:
                 this.popping = false;
                 this.running = false; // Detach Event on Links
 
@@ -6381,7 +6390,7 @@ function (_Emitter) {
 
                 this.trigger = null;
 
-              case 16:
+              case 18:
               case "end":
                 return _context4.stop();
             }
