@@ -5947,7 +5947,8 @@ function (_Emitter) {
       var contextual = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var trigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'script';
       // Save Trigger Element
-      this.trigger = trigger; // When our URL is different from the current location `href` and no other
+      this.trigger = trigger;
+      console.log('redirect', href); // When our URL is different from the current location `href` and no other
       // navigation is running for the moment we are allowed to start a new one.
       // But if the URL containes anchors or if the origin is different we force
       // the hard reloading of the page to avoid serious errors.

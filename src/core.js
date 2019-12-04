@@ -148,6 +148,8 @@ export default class Core extends Emitter {
     // Save Trigger Element
     this.trigger = trigger;
 
+    console.log('redirect', href);
+
     // When our URL is different from the current location `href` and no other
     // navigation is running for the moment we are allowed to start a new one.
     // But if the URL containes anchors or if the origin is different we force
