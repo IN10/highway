@@ -35,8 +35,6 @@ export default class Renderer {
    */
   add(goToSleep) {
     // We setup the DOM for our [data-router-view]
-    console.log('addHTML', goToSleep);
-    console.log(this.properties.view.outerHTML);
     if (goToSleep) {
       this.wrap.insertAdjacentHTML('afterbegin', this.properties.view.outerHTML);
     } else {
@@ -61,8 +59,6 @@ export default class Renderer {
    */
   show(datas) {
     return new Promise(async resolve => {
-      console.log('show', this);
-
       // Update DOM.
       this.update();
 

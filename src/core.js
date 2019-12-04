@@ -148,8 +148,6 @@ export default class Core extends Emitter {
     // Save Trigger Element
     this.trigger = trigger;
 
-    console.log('redirect', href);
-
     // When our URL is different from the current location `href` and no other
     // navigation is running for the moment we are allowed to start a new one.
     // But if the URL containes anchors or if the origin is different we force
@@ -194,15 +192,12 @@ export default class Core extends Emitter {
     // We temporary store the future location.
     const location = this.Helpers.getLocation(window.location.href);
 
-    console.log('popState', this.location, location);
-
     // When users navigate using the browser buttons we check if the locations
     // have no anchors and that our locations are different.
     if (this.location.pathname !== location.pathname || !this.location.anchor && !location.anchor) {
       this.popping = true;
       this.location = location;
 
-      console.log('popstate legit, go fetch page');
       // If everything is fine we can save our location and do what we need to
       // do before fetching it.
       this.beforeFetch();
@@ -263,15 +258,11 @@ export default class Core extends Emitter {
     // Push State
     this.pushState();
 
-    console.log(this.From);
-    console.log('check if from onSleep function');
-
     if (this.From.onSleep) {
       if (
           this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
           this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
       ) {
-        console.log('gotoSleep');
         goToSleep = true;
         this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
       }
@@ -299,40 +290,32 @@ export default class Core extends Emitter {
       contextual: this.Contextual
     };
 
-    console.log(window.location.href, ' !== ', this.asleep.href);
     if (window.location.href !== this.asleep.href) {
       // We have to verify our cache in order to save some HTTPRequests. If we
       // don't use any caching system everytime we would come back to a page we
       // already saw we will have to fetch it again and it's pointless.
       if (this.cache.has(this.location.href)) {
         // We wait until the view is hidden.
-        console.log('get from cache');
 
         if (goToSleep) {
-          console.log('from go to sleep');
           await this.From.sleep(datas);
         } else {
-          console.log('from go hide');
           await this.From.hide(datas);
         }
 
         // Get Properties
         this.properties = this.cache.get(this.location.href);
-        console.log('got page from cache', this.properties);
 
       } else {
         // We wait till all our Promises are resolved.
-        console.log('else');
         let results = null;
 
         if (goToSleep) {
-          console.log('fetch then from go to sleep');
           results = await Promise.all([
             this.fetch(),
             this.From.sleep(datas)
           ]);
         } else {
-          console.log('fetch then from go hide');
           results = await Promise.all([
             this.fetch(),
             this.From.hide(datas)
@@ -353,14 +336,11 @@ export default class Core extends Emitter {
       this.afterFetch(goToSleep);
 
     } else {
-
-      console.log('awaken');
       await Promise.all([
         this.From.hide(datas)
       ]);
       this.properties = this.asleep.renderer.properties;
       this.awaken();
-
     }
 
     this.lastURL = this.location.href;
@@ -437,15 +417,12 @@ export default class Core extends Emitter {
    *  @param {bool} goToSleep - is a page falling asleep
    */
   async afterFetch(goToSleep) {
-    console.log('after fetch');
     // We are calling the renderer attached to the view we just fetched and we
     // are adding the [data-router-view] in our DOM.
     const Renderer = await this.properties.renderer;
 
     this.To = new Renderer(this.properties);
     this.To.add(goToSleep);
-
-    console.log(this.To);
 
     // We then emit a now event right before the view is shown to create a hook
     // for developers who want to make stuff before the view is visible.
