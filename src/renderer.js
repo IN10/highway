@@ -31,10 +31,15 @@ export default class Renderer {
 
   /**
    * Add view in DOM, then remove previous view
+   *  @param {bool} goToSleep - is a page falling asleep
    */
-  add() {
+  add(goToSleep) {
     // We setup the DOM for our [data-router-view]
-    this.wrap.insertAdjacentHTML('beforeend', this.properties.view.outerHTML);
+    if (goToSleep) {
+      this.wrap.insertAdjacentHTML('afterbegin', this.properties.view.outerHTML);
+    } else {
+      this.wrap.insertAdjacentHTML('beforeend', this.properties.view.outerHTML);
+    }
   }
 
   /**
@@ -97,6 +102,47 @@ export default class Renderer {
       this.onLeaveCompleted && this.onLeaveCompleted();
 
       // Resolve Promise
+      resolve();
+    });
+  }
+
+  sleep(datas) {
+    return new Promise(async resolve => {
+
+      this.onSleep && this.onSleep();
+
+      this.Transition && await this.Transition.hide(datas);
+
+      this.Transition.wrap.firstElementChild.classList.add('view-asleep');
+
+      // Resolve Promise
+      resolve();
+    });
+  }
+
+  /**
+   * Add the view in DOM and play an `in` transition if one is defined.
+   *
+   * @param {object} datas - Set of datas
+   * @return {object} Promise
+   */
+  awaken(datas) {
+    return new Promise(async resolve => {
+
+      // Update DOM.
+      this.update();
+
+      // The transition is set in your custom renderer with a getter called
+      // `transition` that should return the transition object you want to
+      // apply to you view. We call the `in` step of this one right now!
+      this.Transition && await this.Transition.show(datas);
+
+      // The `onEnterCompleted` method if set in your custom renderer is called
+      // everytime a transition is over if set. Otherwise it's called right after
+      // the `onEnter` method.
+      this.onAwaken && this.onAwaken();
+
+      // We resolve the Promise.
       resolve();
     });
   }

@@ -29,6 +29,7 @@ export default class Core extends Emitter {
     // Properties & state.
     this.location = this.Helpers.getLocation(window.location.href);
     this.properties = this.Helpers.getProperties(document.cloneNode(true));
+    this.properties.href = window.location.href;
 
     // Status variables.
     this.popping = false;
@@ -47,6 +48,15 @@ export default class Core extends Emitter {
       this.From.setup();
     });
 
+    // Sleep / Awaken variables
+    this.asleep = {
+      page: null,
+      view: null,
+      renderer: null
+    };
+
+    this.lastURL = window.location.href;
+
     // Events variables.
     this._navigate = this.navigate.bind(this);
 
@@ -60,6 +70,30 @@ export default class Core extends Emitter {
 
     // Event attachement
     this.attach(this.links);
+  }
+
+  /**
+   * clearSleep .
+   * @arg {string} href — href of sleeping page
+   */
+  clearSleep() {
+    this.asleep = {};
+  }
+
+  /**
+   * Sleep .
+   * @arg {string} href — href of sleeping page
+   * @arg {object} page — the actual page
+   * @arg {object} view — the view of the page
+   * @arg {object} renderer — the renderer of the page
+   */
+  sleep(href, page, view, renderer) {
+    this.asleep = {
+      href,
+      page,
+      view,
+      renderer
+    };
   }
 
   /**
@@ -210,8 +244,29 @@ export default class Core extends Emitter {
    * Do some tests before HTTP requests to optimize pipeline.
    */
   async beforeFetch() {
+    this.emit('BEFORE_HISTORY', {
+      from: {
+        page: this.From.properties.page,
+        view: this.From.properties.view
+      },
+      trigger: this.trigger,
+      location: this.location
+    });
+
+    let goToSleep = false;
+
     // Push State
     this.pushState();
+
+    if (this.From.onSleep) {
+      if (
+          this.trigger === 'popstate' && window.App.popState.transition === 'pageToOverlay' ||
+          this.trigger !== 'script' && window.lastTransition === 'pageToOverlay'
+      ) {
+        goToSleep = true;
+        this.sleep(this.lastURL, this.From.properties.page, this.From.properties.view, this.From);
+      }
+    }
 
     // We lock the navigation to avoid multiples clicks that could overload the
     // navigation process meaning that if the a navigation is running the user
@@ -235,46 +290,139 @@ export default class Core extends Emitter {
       contextual: this.Contextual
     };
 
-    // We have to verify our cache in order to save some HTTPRequests. If we
-    // don't use any caching system everytime we would come back to a page we
-    // already saw we will have to fetch it again and it's pointless.
-    if (this.cache.has(this.location.href)) {
-      // We wait until the view is hidden.
-      await this.From.hide(datas);
+    if (window.location.href !== this.asleep.href) {
+      // We have to verify our cache in order to save some HTTPRequests. If we
+      // don't use any caching system everytime we would come back to a page we
+      // already saw we will have to fetch it again and it's pointless.
+      if (this.cache.has(this.location.href)) {
+        // We wait until the view is hidden.
 
-      // Get Properties
-      this.properties = this.cache.get(this.location.href);
+        if (goToSleep) {
+          await this.From.sleep(datas);
+        } else {
+          await this.From.hide(datas);
+        }
+
+        // Get Properties
+        this.properties = this.cache.get(this.location.href);
+
+      } else {
+        // We wait till all our Promises are resolved.
+        let results = null;
+
+        if (goToSleep) {
+          results = await Promise.all([
+            this.fetch(),
+            this.From.sleep(datas)
+          ]);
+        } else {
+          results = await Promise.all([
+            this.fetch(),
+            this.From.hide(datas)
+          ]);
+        }
+
+        // Now everything went fine we can extract the properties of the view we
+        // successfully fetched and keep going.
+        this.properties = this.Helpers.getProperties(results[0]);
+        this.properties.href = this.location.href;
+
+        // We cache our result
+        // eslint-disable-next-line
+        this.cache.set(this.location.href, this.properties);
+
+      }
+
+      this.afterFetch(goToSleep);
 
     } else {
-      // We wait till all our Promises are resolved.
-      const results = await Promise.all([
-        this.fetch(),
+      await Promise.all([
         this.From.hide(datas)
       ]);
-
-      // Now everything went fine we can extract the properties of the view we
-      // successfully fetched and keep going.
-      this.properties = this.Helpers.getProperties(results[0]);
-
-      // We cache our result
-      // eslint-disable-next-line
-      this.cache.set(this.location.href, this.properties);
-
+      this.properties = this.asleep.renderer.properties;
+      this.awaken();
     }
 
-    this.afterFetch();
+    this.lastURL = this.location.href;
+  }
+
+  /**
+   * Awaken sleeping page
+   */
+  async awaken() {
+    this.To = this.asleep.renderer;
+
+    this.emit('NAVIGATE_IN', {
+      to: {
+        page: this.To.properties.page,
+        view: this.To.wrap.lastElementChild
+      },
+      trigger: this.trigger,
+      location: this.location
+    });
+
+    this.To.Transition.wrap.lastElementChild.classList.remove('view-asleep');
+
+    // We wait for the view transition to be over before resetting some variables
+    // and reattaching the events to all the new elligible links in our DOM.
+    await this.To.awaken({
+      trigger: this.trigger,
+      contextual: this.Contextual
+    });
+
+    this.popping = false;
+    this.running = false;
+
+
+
+    // Detach Event on Links
+    this.detach(this.links);
+
+    // Get all elligible links.
+    this.links = document.querySelectorAll('a:not([target]):not([data-router-disabled])');
+
+    // Attach Event on Links
+    this.attach(this.links);
+
+    // Finally we emit a last event to create a hook for developers who want to
+    // make stuff when the navigation has ended.
+    this.emit('NAVIGATE_END', {
+      to: {
+        page: this.To.properties.page,
+        view: this.To.wrap.lastElementChild
+      },
+      from: {
+        page: this.From.properties.page,
+        view: this.From.properties.view
+      },
+      trigger: this.trigger,
+      location: this.location
+    });
+
+    // Last but not least we swap the From and To renderers for future navigations.
+    this.From = this.To;
+
+    // Reset Trigger
+    this.trigger = null;
+
+    this.asleep = {
+      page: null,
+      view: null,
+      renderer: null
+    };
   }
 
   /**
    * Push page in DOM
+   *  @param {bool} goToSleep - is a page falling asleep
    */
-  async afterFetch() {
+  async afterFetch(goToSleep) {
     // We are calling the renderer attached to the view we just fetched and we
     // are adding the [data-router-view] in our DOM.
     const Renderer = await this.properties.renderer;
 
     this.To = new Renderer(this.properties);
-    this.To.add();
+    this.To.add(goToSleep);
 
     // We then emit a now event right before the view is shown to create a hook
     // for developers who want to make stuff before the view is visible.
@@ -296,6 +444,7 @@ export default class Core extends Emitter {
 
     this.popping = false;
     this.running = false;
+
 
     // Detach Event on Links
     this.detach(this.links);
